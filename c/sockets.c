@@ -1,4 +1,3 @@
-#ifndef SOCKETS_C
 #include "sockets.h"
 
 #include <arpa/inet.h>
@@ -25,5 +24,3 @@ int create_socket(char *ip, int port, server_socket *res)
 
   return 0;
 }
-
-#endif // ifndef SOCKETS_C

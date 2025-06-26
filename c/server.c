@@ -3,13 +3,9 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
-
+#include <stdlib.h>
 #include "sockets.h"
 #include "socks.h"
-
-#define QUEUE_LENGTH 10
-#define PORT 9090
-#define MAX_USERID_LEN 512
 
 int main()
 {
@@ -30,38 +26,13 @@ int main()
   printf("listenting on port %d\n", PORT);
   while (1)
   {
-    req inp;
-    socklen_t len = sizeof(srv.sock);
-    int cfd = accept(srv.sfd, (struct sockaddr *)&srv.sock, &len);
-    if (recv(cfd, &inp, sizeof(inp), MSG_WAITALL) != sizeof(inp))
-    {
-      perror("accept");
-      continue;
-    }
+    req *inp = malloc(sizeof(req));
 
-    char userid[MAX_USERID_LEN];
-    size_t idx = 0;
-    char c;
-    int n;
-    while (idx < MAX_USERID_LEN - 1)
-    {
-      n = recv(cfd, &c, 1, 0);
-      if (n <= 0)
-      {
-        perror("userid recv");
-        return -1;
-      }
-      if (c == '\0')
-      {
-        break;
-      }
-      userid[idx++] = c;
-    }
-    userid[idx] = '\0';
+    int cfd = recv_req(srv.sfd, (struct sockaddr *)&srv.sock, inp);
 
     printf("successfully read data : %d \n", cfd);
-    printf("UserID: %s\n", userid);
-    printf("dest ip : %d \n", ntohl(inp.dest_ip));
-    printf("dest port : %d \n", ntohs(inp.dest_port));
+    printf("UserID: %s\n", inp->userid);
+    printf("dest ip : %d \n", ntohl(inp->dest_ip));
+    printf("dest port : %d \n", ntohs(inp->dest_port));
   }
 }
