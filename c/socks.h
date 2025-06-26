@@ -30,5 +30,6 @@ typedef struct
 #pragma pack(pop)
 
 int recv_req(int sfd, struct sockaddr *, req *);
+res make_connect_res(uint8_t cd, uint16_t dset_port, uint32_t dest_ip);
 
 #endif // !SOCKS_H

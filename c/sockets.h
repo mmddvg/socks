@@ -10,6 +10,7 @@ typedef struct
   struct sockaddr_in sock;
 } server_socket;
 
-int create_socket(char *ip, int port, server_socket *res);
+int create_server_socket(char *ip, int port, server_socket *res);
+int create_client_socket(uint32_t ip, uint16_t port);
 
 #endif // !SOCKETS_H
