@@ -2,12 +2,16 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <stdio.h>
 
 int create_server_socket(char *ip, int port, server_socket *res)
 {
   int sfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sfd == -1)
+  {
+    perror("socket");
     return -1;
+  }
 
   res->sfd = sfd;
 
@@ -24,6 +28,8 @@ int create_server_socket(char *ip, int port, server_socket *res)
 
   if (bind(sfd, (struct sockaddr *)&sock, sizeof(sock)) == -1)
   {
+    perror("bind");
+
     close(sfd);
     return -2;
   }
