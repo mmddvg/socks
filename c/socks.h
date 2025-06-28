@@ -33,4 +33,6 @@ int recv_req(int sfd, struct sockaddr *, req *);
 res make_connect_res(uint8_t cd, uint16_t dset_port, uint32_t dest_ip);
 int bi_proxy(int fd1, int fd2);
 
+void hello();
+
 #endif // !SOCKS_H

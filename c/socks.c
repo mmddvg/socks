@@ -109,3 +109,8 @@ int bi_proxy(int fd1, int fd2)
 
     return 0;
 }
+
+void hello()
+{
+    printf("hello world\n");
+}

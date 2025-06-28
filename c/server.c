@@ -35,7 +35,6 @@ int main()
     if (cfd < 0)
     {
       perror("recv_req");
-      free(inp);
       continue;
     }
     printf("successfully read data : %d \n", cfd);
@@ -47,7 +46,6 @@ int main()
     if (pid < 0)
     {
       perror("fork");
-      free(inp);
       continue;
     }
     else if (pid > 0)
