@@ -56,7 +56,7 @@ int main()
     break; // child process to handle the request
   }
 
-  int destfd;
+  int destfd, result;
   switch (inp->cd)
   {
   case 1:
@@ -75,13 +75,7 @@ int main()
     send(cfd, &response, sizeof(res), 0);
     printf("sent response connect \n");
 
-    char buff[1024];
-    long int client_data_size = recv(cfd, buff, sizeof(buff), 0);
-    printf("read data from client %ld : %s \n", client_data_size, buff);
-    send(destfd, buff, client_data_size, 0);
-
-    long int dest_data_size = recv(destfd, buff, sizeof(buff), 0);
-    send(cfd, buff, dest_data_size, 0);
+    result = bi_proxy(cfd, destfd);
 
     break;
   case 2:
@@ -94,4 +88,5 @@ int main()
 
   close(destfd);
   close(cfd);
+  return result;
 }
